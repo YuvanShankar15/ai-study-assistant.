@@ -6,13 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, BrainCircuit, Target, Zap, Quote } from 'lucide-react';
 
-const motivationImages = [
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?q=80&w=2076&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1506784951206-33378a5b78e5?q=80&w=2069&auto=format&fit=crop"
+const motivations = [
+  { text: "The secret of getting ahead is getting started.", author: "Mark Twain", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" },
+  { text: "It always seems impossible until it's done.", author: "Nelson Mandela", image: "https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?q=80&w=2076&auto=format&fit=crop" },
+  { text: "Success is the sum of small efforts, repeated day-in and day-out.", author: "Robert Collier", image: "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=2070&auto=format&fit=crop" },
+  { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt", image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=2070&auto=format&fit=crop" },
+  { text: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela", image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop" },
+  { text: "The only place where success comes before work is in the dictionary.", author: "Vidal Sassoon", image: "https://images.unsplash.com/photo-1506784951206-33378a5b78e5?q=80&w=2069&auto=format&fit=crop" }
 ];
 
 const tips = [
@@ -34,24 +34,24 @@ const tips = [
 ];
 
 export default function MotivationPage() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    setCurrentImageIndex(Math.floor(Math.random() * motivationImages.length));
+    setCurrentIndex(Math.floor(Math.random() * motivations.length));
   }, []);
 
-  const getRandomImage = () => {
+  const getRandomMotivation = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     
     setTimeout(() => {
       let newIndex;
       do {
-        newIndex = Math.floor(Math.random() * motivationImages.length);
-      } while (newIndex === currentImageIndex);
+        newIndex = Math.floor(Math.random() * motivations.length);
+      } while (newIndex === currentIndex);
       
-      setCurrentImageIndex(newIndex);
+      setCurrentIndex(newIndex);
       setIsAnimating(false);
     }, 400);
   };
@@ -68,33 +68,50 @@ export default function MotivationPage() {
       </div>
 
       <Card className="border border-orange-900/30 shadow-[0_8px_30px_rgba(234,88,12,0.05)] bg-[#1a0b06]/80 backdrop-blur-xl relative overflow-hidden p-0">
+        <div className="absolute top-0 right-0 p-8 opacity-20 z-20 pointer-events-none">
+          <Quote size={120} className="text-orange-500" />
+        </div>
+        
         <CardContent className="p-0 relative flex flex-col items-center justify-center min-h-[400px] w-full">
           <AnimatePresence mode="wait">
             {!isAnimating && (
               <motion.div
-                key={currentImageIndex}
+                key={currentIndex}
                 initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full flex items-center justify-center"
               >
+                {/* Background Image */}
                 <img 
-                  src={motivationImages[currentImageIndex]} 
-                  alt="Motivation" 
-                  className="w-full h-full object-cover opacity-80 mix-blend-lighten"
+                  src={motivations[currentIndex].image} 
+                  alt="Motivation Background" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-lighten"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a0b06] via-transparent to-transparent"></div>
+                
+                {/* Dark Gradient Overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a0b06]/90 via-[#1a0b06]/60 to-[#1a0b06]/40"></div>
+                
+                {/* Text Content */}
+                <div className="relative z-20 max-w-4xl px-8 text-center pt-8 pb-16">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-orange-50 leading-tight mb-6 drop-shadow-xl">
+                    "{motivations[currentIndex].text}"
+                  </h2>
+                  <p className="text-xl text-orange-300 font-semibold tracking-wide drop-shadow-md">
+                    — {motivations[currentIndex].author}
+                  </p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
 
           <Button 
-            onClick={getRandomImage}
+            onClick={getRandomMotivation}
             disabled={isAnimating}
-            className="absolute bottom-8 z-20 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white shadow-[0_0_20px_rgba(234,88,12,0.6)] rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
+            className="absolute bottom-8 z-30 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white shadow-[0_0_20px_rgba(234,88,12,0.6)] rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
           >
-            <Sparkles className="mr-2" size={20} /> Show Another
+            <Sparkles className="mr-2" size={20} /> Inspire Me Again
           </Button>
         </CardContent>
       </Card>
