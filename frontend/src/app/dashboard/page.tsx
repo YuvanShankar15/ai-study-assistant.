@@ -68,7 +68,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <div className="text-sm font-medium text-orange-200/70">Study Streak</div>
-            <div className="text-xl font-bold text-orange-50">3 Days</div>
+            <div className="text-xl font-bold text-orange-50">0 Days</div>
           </div>
         </div>
       </div>
@@ -80,10 +80,10 @@ export default function DashboardPage() {
             <Target className="w-4 h-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-50">{profile?.studyHours || 4} Hours</div>
-            <p className="text-xs text-orange-200/50 mt-1">2 hours completed</p>
+            <div className="text-2xl font-bold text-orange-50">{profile?.studyHours || 0} Hours</div>
+            <p className="text-xs text-orange-200/50 mt-1">0 hours completed</p>
             <div className="w-full bg-[#3a150b] rounded-full h-2 mt-3 overflow-hidden">
-              <div className="bg-gradient-to-r from-orange-600 to-yellow-500 h-2 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.6)]" style={{ width: '50%' }}></div>
+              <div className="bg-gradient-to-r from-orange-600 to-yellow-500 h-2 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.6)]" style={{ width: '0%' }}></div>
             </div>
           </CardContent>
         </Card>
@@ -93,8 +93,8 @@ export default function DashboardPage() {
             <Calendar className="w-4 h-4 text-red-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-50">Midterms</div>
-            <p className="text-xs text-orange-200/50 mt-1">In 14 days (Data Structures)</p>
+            <div className="text-2xl font-bold text-orange-50">None</div>
+            <p className="text-xs text-orange-200/50 mt-1">No exams scheduled yet</p>
           </CardContent>
         </Card>
         <Card className="border border-orange-900/30 shadow-[0_4px_20px_rgba(234,88,12,0.02)] bg-[#1a0b06]/80 backdrop-blur-xl">
@@ -103,8 +103,8 @@ export default function DashboardPage() {
             <Clock className="w-4 h-4 text-orange-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-50">5</div>
-            <p className="text-xs text-orange-200/50 mt-1">2 due today</p>
+            <div className="text-2xl font-bold text-orange-50">0</div>
+            <p className="text-xs text-orange-200/50 mt-1">All caught up!</p>
           </CardContent>
         </Card>
         <Card className="border border-orange-900/30 shadow-[0_4px_20px_rgba(234,88,12,0.02)] bg-[#1a0b06]/80 backdrop-blur-xl">
@@ -113,8 +113,8 @@ export default function DashboardPage() {
             <Trophy className="w-4 h-4 text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-50">1,240</div>
-            <p className="text-xs text-orange-200/50 mt-1">Top 15% this week</p>
+            <div className="text-2xl font-bold text-orange-50">0</div>
+            <p className="text-xs text-orange-200/50 mt-1">Start studying to earn XP</p>
           </CardContent>
         </Card>
       </div>
@@ -127,38 +127,36 @@ export default function DashboardPage() {
               <CardDescription className="text-orange-200/70">Based on your recent performance and timetable</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="p-4 rounded-xl bg-gradient-to-r from-[#2a120a] to-[#1a0b06] border border-orange-900/30">
-                <div className="flex gap-3">
-                  <div className="mt-0.5">
-                    <BookOpen className="text-orange-500" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-orange-50">Review Data Structures</h4>
-                    <p className="text-sm text-orange-200/70 mt-1">
-                      You have a midterm in 14 days and struggled with Trees. Want me to generate a quick quiz?
-                    </p>
-                    <Link href="/dashboard/chat">
-                      <Button variant="outline" size="sm" className="mt-3 bg-transparent text-orange-400 border-orange-900/50 hover:bg-orange-900/30 hover:text-orange-300">
-                        Take Quiz
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-gradient-to-r from-[#2a120a] to-[#1a0b06] border border-orange-900/30">
-                <div className="flex gap-3">
-                  <div className="mt-0.5">
-                    <Calendar className="text-red-500" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-orange-50">Optimize Schedule</h4>
-                    <p className="text-sm text-orange-200/70 mt-1">
-                      You have a 3-hour gap on Tuesdays. I suggest scheduling your weekly review then.
-                    </p>
+              {profile?.subjects && profile.subjects.length > 0 ? (
+                <div className="p-4 rounded-xl bg-gradient-to-r from-[#2a120a] to-[#1a0b06] border border-orange-900/30">
+                  <div className="flex gap-3">
+                    <div className="mt-0.5">
+                      <BookOpen className="text-orange-500" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-orange-50">Review {profile.subjects[0]?.name || 'your latest subject'}</h4>
+                      <p className="text-sm text-orange-200/70 mt-1">
+                        Based on your timetable, it's a good time to review {profile.subjects[0]?.name || 'this subject'}. Want a quick quiz?
+                      </p>
+                      <Link href="/dashboard/chat">
+                        <Button variant="outline" size="sm" className="mt-3 bg-transparent text-orange-400 border-orange-900/50 hover:bg-orange-900/30 hover:text-orange-300">
+                          Take Quiz
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4 rounded-xl bg-gradient-to-r from-[#2a120a] to-[#1a0b06] border border-orange-900/30 text-center py-8">
+                  <div className="flex justify-center mb-3">
+                    <Target className="text-orange-500/50" size={32} />
+                  </div>
+                  <h4 className="font-semibold text-orange-50">No data available yet</h4>
+                  <p className="text-sm text-orange-200/70 mt-1 max-w-sm mx-auto">
+                    Upload your timetable or start chatting with the AI Assistant to get personalized study recommendations.
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
