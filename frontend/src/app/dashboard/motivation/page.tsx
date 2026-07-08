@@ -6,14 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, BrainCircuit, Target, Zap, Quote } from 'lucide-react';
 
-const motivationalPosters = [
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop", // "Do it with passion or not at all"
-  "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2070&auto=format&fit=crop", // "Work hard, dream big"
-  "https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?q=80&w=2070&auto=format&fit=crop", // "You got this"
-  "https://images.unsplash.com/photo-1574015974293-817f0ebebb74?q=80&w=2070&auto=format&fit=crop", // "Never give up"
-  "https://images.unsplash.com/photo-1499914485622-a88fac536970?q=80&w=2070&auto=format&fit=crop", // "Make it happen"
-  "https://images.unsplash.com/photo-1533227260815-484d6676f028?q=80&w=2070&auto=format&fit=crop", // "Hello ideas"
-  "https://images.unsplash.com/photo-1542435503-956c22dd1c73?q=80&w=2070&auto=format&fit=crop"  // "Focus"
+const classicPosters = [
+  { text: "STAY FOCUSED.", bg: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2074&auto=format&fit=crop" },
+  { text: "NEVER GIVE UP.", bg: "https://images.unsplash.com/photo-1434394354979-a235cd36269d?q=80&w=2051&auto=format&fit=crop" },
+  { text: "SUCCESS IS A DECISION.", bg: "https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?q=80&w=2070&auto=format&fit=crop" },
+  { text: "WORK HARD IN SILENCE.", bg: "https://images.unsplash.com/photo-1506744626753-1fa44df14d28?q=80&w=2070&auto=format&fit=crop" },
+  { text: "BELIEVE IN YOURSELF.", bg: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop" },
+  { text: "MAKE IT HAPPEN.", bg: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=2070&auto=format&fit=crop" },
+  { text: "THINK BIG.", bg: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop" }
 ];
 
 const tips = [
@@ -39,7 +39,7 @@ export default function MotivationPage() {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    setCurrentIndex(Math.floor(Math.random() * motivationalPosters.length));
+    setCurrentIndex(Math.floor(Math.random() * classicPosters.length));
   }, []);
 
   const getRandomMotivation = () => {
@@ -49,7 +49,7 @@ export default function MotivationPage() {
     setTimeout(() => {
       let newIndex;
       do {
-        newIndex = Math.floor(Math.random() * motivationalPosters.length);
+        newIndex = Math.floor(Math.random() * classicPosters.length);
       } while (newIndex === currentIndex);
       
       setCurrentIndex(newIndex);
@@ -68,24 +68,43 @@ export default function MotivationPage() {
         </p>
       </div>
 
-      <Card className="border border-orange-900/30 shadow-[0_8px_30px_rgba(234,88,12,0.05)] bg-[#1a0b06]/80 backdrop-blur-xl relative overflow-hidden p-0">
-        <CardContent className="p-0 relative flex flex-col items-center justify-center min-h-[500px] w-full">
+      <Card className="border border-orange-900/30 shadow-[0_8px_30px_rgba(234,88,12,0.05)] bg-[#0a0402] relative overflow-hidden p-0 rounded-2xl">
+        <CardContent className="p-0 relative flex flex-col items-center justify-center h-[500px] md:h-[600px] w-full bg-black overflow-hidden">
           <AnimatePresence mode="wait">
             {!isAnimating && (
               <motion.div
                 key={currentIndex}
-                initial={{ opacity: 0, scale: 1.02, filter: 'blur(5px)' }}
-                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.98, filter: 'blur(5px)' }}
-                transition={{ duration: 0.4 }}
-                className="absolute inset-0 w-full h-full flex items-center justify-center bg-black"
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="absolute inset-0 w-full h-full flex items-center justify-center"
               >
-                {/* Image containing the actual motivational text */}
+                {/* Stunning Nature Background */}
                 <img 
-                  src={motivationalPosters[currentIndex]} 
-                  alt="Motivational Quote" 
-                  className="w-full h-full object-contain opacity-90"
+                  src={classicPosters[currentIndex].bg} 
+                  alt="Motivation Background" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity"
                 />
+                
+                {/* Dark Vignette Overlay for maximum text contrast */}
+                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]"></div>
+                
+                {/* Huge Classic Motivational Text */}
+                <div className="relative z-20 w-full px-4 text-center flex flex-col items-center justify-center">
+                  <h2 
+                    className="text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tighter leading-none"
+                    style={{ 
+                      textShadow: "0 10px 30px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,1)",
+                      fontFamily: "system-ui, -apple-system, sans-serif"
+                    }}
+                  >
+                    {classicPosters[currentIndex].text.split(' ').map((word, i) => (
+                      <span key={i} className="block md:inline md:mx-2">{word}</span>
+                    ))}
+                  </h2>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -93,7 +112,7 @@ export default function MotivationPage() {
           <Button 
             onClick={getRandomMotivation}
             disabled={isAnimating}
-            className="absolute bottom-6 z-30 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white shadow-[0_0_20px_rgba(234,88,12,0.6)] rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
+            className="absolute bottom-8 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
           >
             <Sparkles className="mr-2" size={20} /> Show Another
           </Button>
