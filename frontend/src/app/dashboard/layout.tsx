@@ -31,6 +31,7 @@ const navItems = [
   { name: 'AI Chat Assistant', href: '/dashboard/chat', icon: MessageSquare },
   { name: 'Coding Practice', href: '/dashboard/practice', icon: Code2 },
   { name: 'Analytics', href: '/dashboard/analytics', icon: TrendingUp },
+  { name: 'Motivation', href: '/dashboard/motivation', icon: BrainCircuit },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
